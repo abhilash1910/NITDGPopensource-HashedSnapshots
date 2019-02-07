@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+function _help(){
+	echo "
+	Usage: ssnaps [-e] [-d] <file-path>
+
+	Switches:
+		-e : encodes the image at <file-path> as per entered password
+		-d : decodes the image at <file-path> as per entered password
+		-s : shreds the image at <file-path>. Use along with -e and -d as -es and -ds respectively
+
+	Commands:
+		<file-path> : absolute/relative path to the image file
+
+	Example:
+		ssnaps -e <file-path>
+	"
+}
+
+if [ "$1" == "-e" ]
+then
+	python3 encoder.py --path $2
+elif [ "$1" == "-d" ]
+then
+	python3 decoder.py --path $2
+elif [ "$1" == "-s" ]
+then
+	python3 shredder.py --path $2
+elif [ "$1" == "-es" ]
+then
+	python3 decoder.py --path $2
+	python3 shredder.py --path $2
+elif [ "$1" == "-ds" ]
+then
+	python3 decoder.py --path $2
+	python3 shredder.py --path $2
+else
+	_help
+fi
